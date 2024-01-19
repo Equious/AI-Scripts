@@ -1,0 +1,1229 @@
+{
+    "results": [
+        {
+            "id": 29436,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Debug code in `getPriceByExternal`",
+            "content": "##### Description\nThe last instruction of the `getPriceByExternal` function will always return the same price (30_000e18). \nhttps://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Oracle.sol#L43\nIt leads to the incorrect settles of battles. An attacker can use this code issue for getting profit from bets. \n##### Recommendation\nWe recommend removing the `return (30_000e18, 0)` instruction from the function.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [
+                {
+                    "title": "Code Quality",
+                    "description": "Code quality issues pertain to the readability and maintainability of the smart contract code. These are not directly related to the functionality of the contract but can have long-term impacts on the ability to understand, maintain, and securely update the code. Code quality is considered to be a non-functional requirement but is essential for the sustainability and reliability of a smart contract."
+                }
+            ],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 3.0,
+            "general_score": 1.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#1-debug-code-in-getpricebyexternal",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23433,
+            "openai_explained": true,
+            "summary": "\nThis bug report concerns the `getPriceByExternal` function in the Oracle.sol file. This function will always return the same price (30_000e18), which leads to incorrect settles of battles. An attacker can take advantage of this issue to make a profit from bets. The recommendation is to remove the `return (30_000e18, 0)` instruction from the function to fix the issue.",
+            "similar_issue_list": [
+                {
+                    "id": 29444,
+                    "title": "The owner can manipulate oracles",
+                    "slug": "the-owner-can-manipulate-oracles-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 20852,
+                    "title": "M-5: D3Oracle will return the wrong price if the Chainlink aggregator returns price outside min/max range",
+                    "slug": "m-5-d3oracle-will-return-the-wrong-price-if-the-chainlink-aggregator-returns-price-outside-minmax-range-sherlock-none-dodo-v3-git"
+                },
+                {
+                    "id": 3350,
+                    "title": "H-2: `ChainlinkOracle.sol#getPrice()` The price will be wrong when the token's USD price feed's `decimals != 8`",
+                    "slug": "h-2-chainlinkoraclesolgetprice-the-price-will-be-wrong-when-the-tokens-usd-price-feeds-decimals-8-sherlock-sentiment-sentiment-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "debug-code-in-getpricebyexternal-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29437,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Battle fishing attack",
+            "content": "##### Description\nThe `Arena` smart contract contains a public [`createBattle`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Arena.sol#L67) function that creates a new battle without initializing. This function is used in the `BattleInitializer`'s function [`createAndInitializeBattle`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/periphery/base/BattleInitializer.sol#L14). It means that an attacker can create a new battle and binds it to a fake manager behind the scene. Using the manager priviledge, the fake manager contract can mint spear and shield tokens and put them to the pool. A user will trade these tokens for collateral. At the end of the battle the attacker could withdraw assets using the [`collect`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Battle.sol#L271) function of the battle.\n\n##### Recommendation\nWe recommend improving the access right model to disallow attackers to gain privileged access.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#2-battle-fishing-attack",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 2,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23432,
+            "openai_explained": true,
+            "summary": "\nThe Divergence Protocol is a smart contract that contains a public function called `createBattle`. This function is used to create a new battle, however it does not initialize the battle. An attacker could use this to gain access to the manager priviledge, allowing them to mint spear and shield tokens and put them in the pool. This would allow the attacker to withdraw assets at the end of the battle using the `collect` function of the battle. To prevent this, it is recommended to improve the access right model to disallow attackers from gaining privileged access.",
+            "similar_issue_list": [
+                {
+                    "id": 29440,
+                    "title": "The `startSqrtPriceX96` manipulation",
+                    "slug": "the-startsqrtpricex96-manipulation-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 29446,
+                    "title": "Public functions for withdrawn assets in the `PeripheryPayments` contract",
+                    "slug": "public-functions-for-withdrawn-assets-in-the-peripherypayments-contract-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 29447,
+                    "title": "Lack of incentivization of the battle settlement process",
+                    "slug": "lack-of-incentivization-of-the-battle-settlement-process-mixbytes-none-divergence-protocol-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "battle-fishing-attack-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29438,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Multiple redemptions of position are possible",
+            "content": "##### Description\nThe `redeemObligation` function does not change the state of the position to `ObligationRedeemed`. This allows an attacker to call it multiple times, potentially gaining an unlimited amout of the collateral token. Currently, this issue is unexploitable because of issue M.5 (described below), however, it becomes relevant if issue M.5 is fixed.\n##### Recommendation\nWe recommend changing the state of the position after redemption of the obligations to prevent multiple redemptions.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#3-multiple-redemptions-of-position-are-possible",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 1,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23431,
+            "openai_explained": true,
+            "summary": "\nThis bug report concerns the `redeemObligation` function, which is used to redeem obligations. The problem is that the function does not change the state of the position to `ObligationRedeemed`, which allows an attacker to call the function multiple times and potentially gain an unlimited amount of the collateral token. Currently, this issue is not exploitable due to another issue (M.5), but it could become relevant if that issue is fixed.\n\nThe recommendation is to change the state of the position after redemption of the obligations, in order to prevent multiple redemptions. This would help to ensure that attackers cannot exploit the function for their own gain.",
+            "similar_issue_list": [
+                {
+                    "id": 29448,
+                    "title": "The `redeemObligation` will always be reverted",
+                    "slug": "the-redeemobligation-will-always-be-reverted-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 26239,
+                    "title": "SILENT FAILURE DURING TOKEN REDEMPTION ON THE WITHDRAW FUNCTION",
+                    "slug": "silent-failure-during-token-redemption-on-the-withdraw-function-halborn-none-qoda-finance-core-v1-security-assessment-pdf"
+                },
+                {
+                    "id": 16152,
+                    "title": "[M-09] Last Trove may be prevented from redeeming",
+                    "slug": "m-09-last-trove-may-be-prevented-from-redeeming-code4rena-ethos-reserve-ethos-reserve-contest-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "multiple-redemptions-of-position-are-possible-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29439,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Incorrect price calculation on more than two phases",
+            "content": "##### Description\nIn the `_getPrice` function, probably due to a mistype, the cycle is not exited after the determination of the final price. This may lead to several executions of the `price *= decimalDiff` code wich renders the price significantly higher than it should be.\n\nAs this issue may lead to an incorrect battle resolution, we assign the CRITICAL severity rating to it.\n\nRelated code - the `_getPrice` function: https://github.com/DivergenceProtocol/diver-contracts/blob/29a0ccb5fc7ac838bd44c75c0afc398b84be267a/src/core/Oracle.sol#L66\n##### Recommendation\nWe recommend fixing the algorithm of price calculation.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#4-incorrect-price-calculation-on-more-than-two-phases",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23430,
+            "openai_explained": true,
+            "summary": "\nThis bug report is about an issue in the `_getPrice` function of the Divergence Protocol's contracts. The problem is that due to a mistype, the cycle is not exited after the determination of the final price, leading to several executions of the `price *= decimalDiff` code, which renders the price significantly higher than it should be. As this issue may lead to an incorrect battle resolution, it has been assigned the CRITICAL severity rating. The related code can be found in the link provided. The recommendation is to fix the algorithm of price calculation.",
+            "similar_issue_list": [
+                {
+                    "id": 29443,
+                    "title": "Price manipulation by calling `updatePhase` prematurely",
+                    "slug": "price-manipulation-by-calling-updatephase-prematurely-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 3514,
+                    "title": "M-2: Wrong price calculation in DnGmxJuniorVaultManager.sol",
+                    "slug": "m-2-wrong-price-calculation-in-dngmxjuniorvaultmanagersol-sherlock-rage-trade-rage-trade-git"
+                },
+                {
+                    "id": 28576,
+                    "title": "Potential div by zero error",
+                    "slug": "potential-div-by-zero-error-mixbytes-none-bond-appetit-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "incorrect-price-calculation-on-more-than-two-phases-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29440,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "The `startSqrtPriceX96` manipulation",
+            "content": "##### Description\nThe starting price [`startSqrtPriceX96`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Battle.sol#L102) is an arbitrary, user-defined value. For the given battle key, an attacker can specify their unfair price to grief other users or even to make profits from unfair trade conditions. Such attacks can't be avoided without redeploying the system's smart-contract.\n\n##### Recommendation\nWe recommend including `startSqrtPriceX96` into the battle identifier (battle key).\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#1-the-startsqrtpricex96-manipulation",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 1,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23429,
+            "openai_explained": true,
+            "summary": "\nA bug has been reported in the Divergence Protocol's smart-contract system, which allows attackers to specify an unfair starting price for a battle key. This could be used to grief other users or to make profits from unfair trade conditions, and cannot be avoided without redeploying the system's smart-contract. To fix this, the report recommends including the starting price into the battle identifier.",
+            "similar_issue_list": [
+                {
+                    "id": 29437,
+                    "title": "Battle fishing attack",
+                    "slug": "battle-fishing-attack-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 29439,
+                    "title": "Incorrect price calculation on more than two phases",
+                    "slug": "incorrect-price-calculation-on-more-than-two-phases-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 3400,
+                    "title": "H-1: Attacker can manipulate the pricePerShare to profit from future users' deposits",
+                    "slug": "h-1-attacker-can-manipulate-the-pricepershare-to-profit-from-future-users-deposits-sherlock-mycelium-mycelium-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "the-startsqrtpricex96-manipulation-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29441,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Empty trades",
+            "content": "##### Description\nThe trade function allows you to specify a price limit, upon reaching which the cycle will be exited without performing any movement of tokens at line\nhttps://github.com/DivergenceProtocol/diver-contracts/blob/29a0ccb5fc7ac838bd44c75c0afc398b84be267a/src/core/Battle.sol#L286, \nbut with a change of the current price at line \nhttps://github.com/DivergenceProtocol/diver-contracts/blob/29a0ccb5fc7ac838bd44c75c0afc398b84be267a/src/core/Battle.sol#L359.\n \nAn attacker creates a contract that calls the trade function of the Battle contract with a price limit. To get passed the balance check, the attacker sends one token to the contract inside tradeCallback.\n\nThis ability to perform empty exchanges in empty areas of liquidity creates the possibility of price manipulation. This capability can be used by an attacker to attack liquidity providers in order to block the addition of liquidity. \n\nhttps://github.com/DivergenceProtocol/diver-contracts/blob/29a0ccb5fc7ac838bd44c75c0afc398b84be267a/src/periphery/base/LiquidityManagement.sol#L43\n\nTo resolve this, it is necessary to resort to non-standard actions, for example, adding liquidity over the entire tick interval.\n\nThis error is marked as HIGH as the contract is blocked by the attacker.\n\n##### Recommendation\nWe recommend following one of the next ways:\n\n1) Revert empty trades\n2) Add function initAddLIquidity that moves price to the right place and then call the addLiquidity function\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#2-empty-trades",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23428,
+            "openai_explained": true,
+            "summary": "\nThis bug report describes an issue with the trade function of the Battle contract. The trade function allows users to specify a price limit, and when this limit is reached, the cycle will be exited without any movement of tokens. However, an attacker can create a contract that calls this function with a price limit, and then send one token to the contract inside tradeCallback in order to get passed the balance check. This can be used to manipulate prices and attack liquidity providers, blocking the addition of liquidity.\n\nTo resolve this issue, two recommendations have been made. The first is to revert empty trades, and the second is to add a function called initAddLiquidity that moves the price to the right place and then calls the addLiquidity function. This error is marked as high as the contract is blocked by the attacker.",
+            "similar_issue_list": [
+                {
+                    "id": 19026,
+                    "title": "TRST-H-1 A malicious operator can drain the vault funds in one transaction",
+                    "slug": "trst-h-1-a-malicious-operator-can-drain-the-vault-funds-in-one-transaction-trust-security-none-orbital-finance-markdown_"
+                },
+                {
+                    "id": 28165,
+                    "title": "Unnecessary and unrestricted `trade()` at `sync/BancorSwapper`",
+                    "slug": "unnecessary-and-unrestricted-trade-at-syncbancorswapper-mixbytes-none-yearn-finance-markdown"
+                },
+                {
+                    "id": 28292,
+                    "title": "Token exchange blocking",
+                    "slug": "token-exchange-blocking-mixbytes-none-1inch-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "empty-trades-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29442,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Price manipulation by calling `updatePhase` with different symbols",
+            "content": "##### Description\nIn the audited commit `29a0ccb5fc7ac838bd44c75c0afc398b84be267a`, the `endRoundId` value is not dependent on the asset symbol. By calling the `updatePhase` function with a different `symbol` argument, an attacker may manipulate the `endRoundId` values. This could violate the correctness of the price calculation algorithm, leading to incorrect battle income.\n\nAlthough this is a critical flaw, it is only exploitable during a 1-hour period after a Chainlink phase has been changed. Given its critical impact but low likelihood, this issue is assigned a HIGH severity rating.\n\nRelated code - the declaration of the `endRoundId`: https://github.com/DivergenceProtocol/diver-contracts/blob/29a0ccb5fc7ac838bd44c75c0afc398b84be267a/src/core/Oracle.sol#L17\n\n##### Recommendation\nWe recommend reworking the entire algorithm of interaction with Chainlink to render it more tolerant to manipulations.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#3-price-manipulation-by-calling-updatephase-with-different-symbols",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23427,
+            "openai_explained": true,
+            "summary": "\nThis bug report details a critical flaw in the audited commit `29a0ccb5fc7ac838bd44c75c0afc398b84be267a` in which the `endRoundId` value is not dependent on the asset symbol. An attacker could exploit this vulnerability to manipulate the `endRoundId` values, which would lead to incorrect battle income and violate the correctness of the price calculation algorithm. \n\nThe issue is considered to be of HIGH severity due to its critical impact, but it is only exploitable during a 1-hour period after a Chainlink phase has been changed. As a result, the recommendation is to rework the entire algorithm of interaction with Chainlink to make it more tolerant to manipulations.",
+            "similar_issue_list": [
+                {
+                    "id": 29443,
+                    "title": "Price manipulation by calling `updatePhase` prematurely",
+                    "slug": "price-manipulation-by-calling-updatephase-prematurely-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 21614,
+                    "title": "DATA RETURNED FROM CHAINLINK IS NOT VALIDATED",
+                    "slug": "data-returned-from-chainlink-is-not-validated-halborn-none-damfinance-lmcv-part-2-pdf"
+                },
+                {
+                    "id": 3228,
+                    "title": "[M-24] [NAZ-M1] Chainlink's `latestRoundData` Might Return Stale Results",
+                    "slug": "m-24-naz-m1-chainlinks-latestrounddata-might-return-stale-results-code4rena-olympus-dao-olympus-dao-contest-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "price-manipulation-by-calling-updatephase-with-different-symbols-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29443,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Price manipulation by calling `updatePhase` prematurely",
+            "content": "##### Description\nWhen `updatePhase` is called before the current phase has ended, it records an incorrect `endRoundId` value. Additionally, if `updatePhase` is not called after the phase has ended, the price calculation will be compromised in a manner similar to issue High.3.\n\nThis issue is even less exploitable than the previous one, but the impact is still critical, hence we assign it a HIGH severity rating.\n\nRelated code - the `updatePhase` function: https://github.com/DivergenceProtocol/diver-contracts/blob/29a0ccb5fc7ac838bd44c75c0afc398b84be267a/src/core/Oracle.sol#L113\n##### Recommendation\nWe recommend reworking the entire algorithm of interaction with Chainlink to render it more tolerant to manipulations.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#4-price-manipulation-by-calling-updatephase-prematurely",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23426,
+            "openai_explained": true,
+            "summary": "\nA bug has been identified in the `updatePhase` function of the Divergence Protocol, which is used to calculate prices. When `updatePhase` is called before the current phase has ended, an incorrect `endRoundId` value is recorded, and if `updatePhase` is not called after the phase has ended, the price calculation will be compromised. This issue is considered to be of high severity, and is less exploitable than other similar issues. \n\nTo fix this bug, it is recommended to rework the entire algorithm of interaction with Chainlink, making it more tolerant to manipulations.",
+            "similar_issue_list": [
+                {
+                    "id": 29439,
+                    "title": "Incorrect price calculation on more than two phases",
+                    "slug": "incorrect-price-calculation-on-more-than-two-phases-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 29442,
+                    "title": "Price manipulation by calling `updatePhase` with different symbols",
+                    "slug": "price-manipulation-by-calling-updatephase-with-different-symbols-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 3228,
+                    "title": "[M-24] [NAZ-M1] Chainlink's `latestRoundData` Might Return Stale Results",
+                    "slug": "m-24-naz-m1-chainlinks-latestrounddata-might-return-stale-results-code4rena-olympus-dao-olympus-dao-contest-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "price-manipulation-by-calling-updatephase-prematurely-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29444,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "The owner can manipulate oracles",
+            "content": "##### Description\nThe `Oracle` contract has a function [`setExternalOracle`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Oracle.sol#L24) that set an external oracle address for symbols. The owner is able to set a fake external oracle just before the battle end. As a result, it will lead to the incorrect battle settlement.\n\n##### Recommendation\nWe recommend locking the possibility to change the oracle address for an already created battle.\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#1-the-owner-can-manipulate-oracles",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23425,
+            "openai_explained": true,
+            "summary": "\nThis bug report is about the `Oracle` contract, which has a function [`setExternalOracle`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Oracle.sol#L24) that sets an external oracle address for symbols. The issue is that the owner of the contract can set a fake external oracle just before the battle ends, which would lead to incorrect battle settlement. To prevent this, the recommendation is to lock the possibility to change the oracle address for an already created battle.",
+            "similar_issue_list": [
+                {
+                    "id": 29436,
+                    "title": "Debug code in `getPriceByExternal`",
+                    "slug": "debug-code-in-getpricebyexternal-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 29445,
+                    "title": "Reserve oracle",
+                    "slug": "reserve-oracle-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 27597,
+                    "title": "Setter functions for core GMX contracts",
+                    "slug": "setter-functions-for-core-gmx-contracts-codehawks-steadefi-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "the-owner-can-manipulate-oracles-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29445,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Reserve oracle",
+            "content": "##### Description\nIn case of some instability with Chainlink oracle gaps in a price history are probably present. These gaps cause the `settle` function call to revert.\n##### Recommendation\nWe recommend adding some reserve price source for the `Oracle` contract.\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#2-reserve-oracle",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23424,
+            "openai_explained": true,
+            "summary": "\nA bug report has been filed concerning Chainlink oracle and its instability. It is believed that gaps in the price history are causing the `settle` function call to revert. A recommendation has been made to add a reserve price source for the `Oracle` contract to address this issue. This will help to ensure that the `settle` function call does not revert due to price history gaps.",
+            "similar_issue_list": [
+                {
+                    "id": 1192,
+                    "title": "[H-09] `PriceOracle` Does Not Filter Price Feed Outliers",
+                    "slug": "h-09-priceoracle-does-not-filter-price-feed-outliers-code4rena-sublime-sublime-contest-git"
+                },
+                {
+                    "id": 939,
+                    "title": "[M-05] Chainlink's latestRoundData might return stale or incorrect results",
+                    "slug": "m-05-chainlinks-latestrounddata-might-return-stale-or-incorrect-results-code4rena-mochi-mochi-contest-git"
+                },
+                {
+                    "id": 13534,
+                    "title": "Stale Oracle prices might affect the rates",
+                    "slug": "stale-oracle-prices-might-affect-the-rates-consensys-definer-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "reserve-oracle-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29446,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Public functions for withdrawn assets in the `PeripheryPayments` contract",
+            "content": "##### Description\nThe [`sweepToken`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/periphery/base/PeripheryPayments.sol#L31) and [`refundETH`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/periphery/base/PeripheryPayments.sol#L42) functions allow anyone to withdraw funds from the `Manager` contract. There are no funds on the contract by design but if someone makes a wrong transfer to the contract by mistake, an attacker can steal it. Also, there is a risk of inheritance of this contract in the future in other cases where funds will be kept on a new contract. \n\n##### Recommendation\nWe recommend adding access control to the withdraw functions.\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#3-public-functions-for-withdrawn-assets-in-the-peripherypayments-contract",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23423,
+            "openai_explained": true,
+            "summary": "\nThis bug report concerns the [`sweepToken`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/periphery/base/PeripheryPayments.sol#L31) and [`refundETH`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/periphery/base/PeripheryPayments.sol#L42) functions of the `Manager` contract. These functions allow anyone to withdraw funds from the contract, even if there are no funds on it. This means that if someone makes a wrong transfer to the contract, an attacker can steal it. Furthermore, there is a risk of inheritance of this contract in the future when funds are kept on a new contract. \n\nTo address this issue, the bug report recommends adding access control to the withdraw functions. This will ensure that only authorized users can access the funds.",
+            "similar_issue_list": [
+                {
+                    "id": 28770,
+                    "title": "[M-10] Contracts are vulnerable to fee-on-transfer accounting-related issues",
+                    "slug": "m-10-contracts-are-vulnerable-to-fee-on-transfer-accounting-related-issues-code4rena-axelar-network-axelar-network-git"
+                },
+                {
+                    "id": 1101,
+                    "title": "[M-06] AbstractRewardMine - Re-entrancy attack during withdrawal",
+                    "slug": "m-06-abstractrewardmine-re-entrancy-attack-during-withdrawal-code4rena-malt-finance-malt-finance-contest-git"
+                },
+                {
+                    "id": 17397,
+                    "title": "Malicious manager can reinvest tokens to drain the pool",
+                    "slug": "malicious-manager-can-reinvest-tokens-to-drain-the-pool-trailofbits-balancer-v2-pdf"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "public-functions-for-withdrawn-assets-in-the-peripherypayments-contract-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29447,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "Lack of incentivization of the battle settlement process",
+            "content": "##### Description\nThere is no specific incentivization of the [`settle()`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Battle.sol#L424) function. Though most of the users are interested in battle finalization, but in order to save gas each user would prefer to avoid making the settlement by themselves. It may make sense for some networks where gas is expensive enough. Consecutively, it is expected behavior that users wouldn't make battle settlements, and the project owner will make it in a centralized manner even if it is unprofitable for them. It causes some centralization and an open attack vector for the griefing attack by spamming the project by battles that the project owner is enforced to finalize even if it is unprofitable for them.\n##### Recommendation\nWe recommend introducing some incentivization of the battle settlement. It can be combined with spam protection.",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#4-lack-of-incentivization-of-the-battle-settlement-process",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23422,
+            "openai_explained": true,
+            "summary": "\nThis bug report is about the lack of incentivization of the `settle()` function in the Divergence Protocol. Without incentivization, users may prefer to save gas by avoiding making the settlement themselves, leading to centralized battle settlement and an open attack vector for griefing attacks. To solve this issue, it is recommended that incentivization of battle settlement be introduced, combined with spam protection.",
+            "similar_issue_list": [
+                {
+                    "id": 29440,
+                    "title": "The `startSqrtPriceX96` manipulation",
+                    "slug": "the-startsqrtpricex96-manipulation-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 1521,
+                    "title": "[M-04] settleFunding will exceed block gas with more markets and activity",
+                    "slug": "m-04-settlefunding-will-exceed-block-gas-with-more-markets-and-activity-code4rena-hubble-hubble-contest-git"
+                },
+                {
+                    "id": 19817,
+                    "title": "[H-01] Re-entrancy in `settleAuction` allow stealing all funds",
+                    "slug": "h-01-re-entrancy-in-settleauction-allow-stealing-all-funds-code4rena-kuiper-kuiper-contest-git_"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "lack-of-incentivization-of-the-battle-settlement-process-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29448,
+            "issue_protocol": {
+                "id": 1233,
+                "name": "Divergence Protocol",
+                "category_list": []
+            },
+            "title": "The `redeemObligation` will always be reverted",
+            "content": "##### Description\n`redeemObligation` is designed to be called when the state is `Outcome.ONGOING`. However, it utilizes [`Battle.withdrawObligation`](https://github.com/DivergenceProtocol/diver-contracts/blob/b094ef8a453f4e0c688f36f8ef7743e7f40a36cb/src/periphery/Manager.sol#L204) which will invariably be reverted under such conditions.\n##### Recommendation\nIt is recommended to either modify `Battle.withdrawObligation` or use an alternative function instead in order to enable the withdrawal of obligations during the `Outcome.ONGOING` state.\n\n\n",
+            "kind": "MARKDOWN",
+            "issue_source": {
+                "name": "MixBytes",
+                "url": "https://mixbytes.io/",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/mixbytes_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "MixBytes"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-28T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/mixbytes/audits_public/blob/master/Divergence%20Protocol/README.md#5-the-redeemobligation-will-always-be-reverted",
+            "github_link": "",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23421,
+            "openai_explained": true,
+            "summary": "\nThe bug report describes an issue with the `redeemObligation` function in the Divergence Protocol. This function is designed to be called when the state is `Outcome.ONGOING`, however, it utilizes `Battle.withdrawObligation`, which will be reverted under such conditions. To fix this issue, it is recommended to modify `Battle.withdrawObligation` or use an alternative function instead to enable the withdrawal of obligations during the `Outcome.ONGOING` state.",
+            "similar_issue_list": [
+                {
+                    "id": 29438,
+                    "title": "Multiple redemptions of position are possible",
+                    "slug": "multiple-redemptions-of-position-are-possible-mixbytes-none-divergence-protocol-markdown"
+                },
+                {
+                    "id": 6676,
+                    "title": "H-4: User can receive more rewards through a mistake in the withdrawal logic",
+                    "slug": "h-4-user-can-receive-more-rewards-through-a-mistake-in-the-withdrawal-logic-sherlock-olympusdao-olympusdao-git"
+                },
+                {
+                    "id": 24773,
+                    "title": "[M-10] Rewards aren't updated before user's balance change in Gauge's `withdrawToken`",
+                    "slug": "m-10-rewards-arent-updated-before-users-balance-change-in-gauges-withdrawtoken-code4rena-velodrome-finance-velodrome-finance-git"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "the-redeemobligation-will-always-be-reverted-mixbytes-none-divergence-protocol-markdown"
+        },
+        {
+            "id": 29407,
+            "issue_protocol": {
+                "id": 1231,
+                "name": "Redacted Dinero Infrastructure",
+                "category_list": []
+            },
+            "title": "Open ports to the internet",
+            "content": "Severity: Critical Risk\nContext: linux-ec2-cdk/lib/linux-ec2-cdk-stack.ts#L49-L83\nDescription: The following ports will be open from the internet ( 0.0.0.0/0 ) and would allow anyone to access\nany service running under them.\n• 443 tcp - https\n• 9100-9104 tcp - beacon Node metrics port\n• 9091 tcp - prometheus\n• 3100 tcp - grafana\n• 8545 tcp - execution layer rpc\n• 9001 tcp - prometheus\n• 5052 - beacon API\nRecommendation: Remove the ports from the security group and keep public facing ports to the minimum (the\nAPI ports currently exposed can be easily used to DDoS the node and should definitely not be exposed). In this\ncase, the P2P ports 9001(tcp/udp) and 30303(tcp/udp). Port forwarding via SSH can be used to access these\nports in a secure way.\nRedacted: Fixed in PR 56.\nSpearbit: The recommendation was followed and a fix was applied in PR 56 at commit 6b5f37a6. Only the P2P\nports are now directly exposed directly to the Internet.\n",
+            "kind": "PDF",
+            "issue_source": {
+                "name": "Spearbit",
+                "url": "https://spearbit.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/spearbit_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/spearbit_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "Parithosh",
+                "Rafael Matias"
+            ],
+            "finders_count": 2,
+            "report_date": "2023-12-19T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "https://github.com/spearbit/portfolio/blob/master/pdfs/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/spearbit/portfolio/blob/master/pdfs/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "github_link": "",
+            "pdf_link": "https://solodit-bucket.s3.amazonaws.com/storage/reports/spearbit/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "pdf_page_from": 6,
+            "bookmarked": false,
+            "bookmarked_total": 3,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23324,
+            "openai_explained": true,
+            "summary": "\nThis bug report discusses a critical risk with the Linux-EC2-CDK stack. It was discovered that several ports were open from the internet, allowing anyone to access any service running under them. These ports included 443 tcp (https), 9100-9104 tcp (beacon Node metrics port), 9091 tcp (prometheus), 3100 tcp (grafana), 8545 tcp (execution layer rpc), 9001 tcp (prometheus), and 5052 (beacon API). The recommendation was to remove the ports from the security group and keep public facing ports to a minimum. It was suggested to only have the P2P ports 9001 (tcp/udp) and 30303 (tcp/udp) exposed directly to the Internet, with port forwarding via SSH being used to access them securely. The recommendation was followed and a fix was applied in PR 56 at commit 6b5f37a6, so now only the P2P ports are directly exposed to the Internet.",
+            "similar_issue_list": [
+                {
+                    "id": 29408,
+                    "title": "Docker container running as root",
+                    "slug": "docker-container-running-as-root-spearbit-none-redacted-dinero-infrastructure-pdf"
+                },
+                {
+                    "id": 21470,
+                    "title": "PRIVATE SSH KEYS COMMITTED TO GIT REPOSITORY",
+                    "slug": "private-ssh-keys-committed-to-git-repository-halborn-none-boostylabs-tricorn-bridge-server-golang-security-assessment-pdf"
+                },
+                {
+                    "id": 13326,
+                    "title": "Router - spawns unauthenticated admin API endpoint listening on all interfaces",
+                    "slug": "router-spawns-unauthenticated-admin-api-endpoint-listening-on-all-interfaces-consensys-connext-nxtp-noncustodial-xchain-transfer-protocol-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "open-ports-to-the-internet-spearbit-none-redacted-dinero-infrastructure-pdf"
+        },
+        {
+            "id": 29408,
+            "issue_protocol": {
+                "id": 1231,
+                "name": "Redacted Dinero Infrastructure",
+                "category_list": []
+            },
+            "title": "Docker container running as root",
+            "content": "Severity: Medium Risk\nContext: dineronode/docker/pirexeth-dockerfile#L1, dineronode/docker/pirexeth-ec-migrator#L1,\ndineronode/docker/pirexeth-prune-provision#L1\nDescription: Docker containers run by default as root . It is recommended to use a different user to prevent\nprivilege escalation.\nRecommendation: Add a USER to the Dockerfile. This will require that the files needed to run the node software\nare owned by that user.\nRedacted: Fixed in PR 56.\nSpearbit: The recommendation was followed and a fix was applied in PR 56 at commit 6a5de538.\n5\n",
+            "kind": "PDF",
+            "issue_source": {
+                "name": "Spearbit",
+                "url": "https://spearbit.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/spearbit_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/spearbit_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "Parithosh",
+                "Rafael Matias"
+            ],
+            "finders_count": 2,
+            "report_date": "2023-12-19T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "https://github.com/spearbit/portfolio/blob/master/pdfs/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/spearbit/portfolio/blob/master/pdfs/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "github_link": "",
+            "pdf_link": "https://solodit-bucket.s3.amazonaws.com/storage/reports/spearbit/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "pdf_page_from": 6,
+            "bookmarked": false,
+            "bookmarked_total": 1,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23323,
+            "openai_explained": true,
+            "summary": "\nThis bug report is about Docker containers running by default as root, which can lead to privilege escalation. It is recommended to use a different user to prevent this from happening. A fix was applied in Pull Request (PR) 56, which added a USER to the Dockerfile. This made sure that the files needed to run the node software were owned by that user. This bug report was related to dineronode/docker/pirexeth-dockerfile#L1, dineronode/docker/pirexeth-ec-migrator#L1, and dineronode/docker/pirexeth-prune-provision#L1. The severity of this bug was Medium Risk.",
+            "similar_issue_list": [
+                {
+                    "id": 19364,
+                    "title": "Use of Weak Entropy Source for Secret Tokens",
+                    "slug": "use-of-weak-entropy-source-for-secret-tokens-sigmaprime-none-eth-docker-pdf"
+                },
+                {
+                    "id": 16922,
+                    "title": "Peggo takes an Ethereum private key as a command-line argument",
+                    "slug": "peggo-takes-an-ethereum-private-key-as-a-command-line-argument-trailofbits-umee-pdf"
+                },
+                {
+                    "id": 13447,
+                    "title": "Deployment - Docker containers running as root",
+                    "slug": "deployment-docker-containers-running-as-root-consensys-rocketpool-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "docker-container-running-as-root-spearbit-none-redacted-dinero-infrastructure-pdf"
+        },
+        {
+            "id": 29409,
+            "issue_protocol": {
+                "id": 1231,
+                "name": "Redacted Dinero Infrastructure",
+                "category_list": []
+            },
+            "title": "Block depth used does not offer guarantees against reorgs under edge cases",
+            "content": "Severity: Medium Risk\nContext: cdk-dinero-keeper/src/functions/update-validator-stats/index.ts#L226\nDescription: The Ethereum chain finalizes roughly every 2 epochs (64 slots), at this point the network offers\nextreme guarantees for the finalized blocks. The current value of CONFIRMATION_BLOCKS=30 would be historically\nsafe, but offers no guarantees in edge/attack cases against reorgs and non-finality incidents.\nRecommendation: There is a notion of finalized blocks that could be used instead. The data would be older, but\nwould represent the finalized state of the network. Note that in case of a non-finality incident on the network, the\nvalue will be stuck in the past unless the network is healthy again. This may even be an advantage as you will not\nperform actions on data that might change or spend funds that should not have been.\nRedacted: Fixed in PR 56.\nSpearbit: The recommendation was followed and a fix was applied in PR 56 at commit 3772bdd8.\n",
+            "kind": "PDF",
+            "issue_source": {
+                "name": "Spearbit",
+                "url": "https://spearbit.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/spearbit_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/spearbit_horizontal.png",
+                "has_contest": false
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "Parithosh",
+                "Rafael Matias"
+            ],
+            "finders_count": 2,
+            "report_date": "2023-12-19T00:00:00Z",
+            "contest_prize_txt": "",
+            "contest_link": "https://github.com/spearbit/portfolio/blob/master/pdfs/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "sponsor_name": null,
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://github.com/spearbit/portfolio/blob/master/pdfs/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "github_link": "",
+            "pdf_link": "https://solodit-bucket.s3.amazonaws.com/storage/reports/spearbit/Redacted-Dinero-Infrastructure-Security-Review.pdf",
+            "pdf_page_from": 7,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23322,
+            "openai_explained": true,
+            "summary": "\nThis bug report is about a risk of medium severity in the cdk-dinero-keeper/src/functions/update-validator-stats/index.ts#L226. The current value of CONFIRMATION_BLOCKS=30 would be historically safe, but offers no guarantees in edge/attack cases against reorgs and non-finality incidents.\n\nThe recommendation is to use a notion of finalized blocks instead, as this would represent the finalized state of the network. This data would be older, but it would also mean that in case of a non-finality incident, the value would be stuck in the past unless the network is healthy again. Additionally, this could be an advantage as it would stop any actions being taken on data that might change or funds being spent that should not have been.\n\nThe recommendation was followed and a fix was applied in PR 56 at commit 3772bdd8.",
+            "similar_issue_list": [
+                {
+                    "id": 27676,
+                    "title": "It is possible that some unstake requests can get uncancellable",
+                    "slug": "it-is-possible-that-some-unstake-requests-can-get-uncancellable-mixbytes-none-mantle-network-markdown"
+                },
+                {
+                    "id": 29266,
+                    "title": "Polygon chain reorgs will change mystery box tiers which can be gamed by validators",
+                    "slug": "polygon-chain-reorgs-will-change-mystery-box-tiers-which-can-be-gamed-by-validators-cyfrin-none-cyfrin-mode-earnm-markdown"
+                },
+                {
+                    "id": 13334,
+                    "title": "Router - Provide and enforce safe defaults (config)",
+                    "slug": "router-provide-and-enforce-safe-defaults-config-consensys-connext-nxtp-noncustodial-xchain-transfer-protocol-markdown"
+                }
+            ],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "block-depth-used-does-not-offer-guarantees-against-reorgs-under-edge-cases-spearbit-none-redacted-dinero-infrastructure-pdf"
+        },
+        {
+            "id": 29589,
+            "issue_protocol": {
+                "id": 1219,
+                "name": "INIT Capital",
+                "category_list": []
+            },
+            "title": "[H-01] Liquidations can be prevented by frontrunning and liquidating 1 debt (or more) due to wrong assumption in POS\\_MANAGER",
+            "content": "\nUsers can avoid being liquidated if they frontrun liquidation calls with a liquidate call with 1 wei. Or, they may do a partial liquidation and avoid being liquidated before the interest reaches the value of the debt pre liquidation. The total interest stored in `__posBorrInfos[_posId].borrExtraInfos[_pool].totalInterest` would also be wrong.\n\n### Proof of Concept\n\nThe `POS_MANAGER` stores the total interest in `__posBorrInfos[_posId].borrExtraInfos[_pool].totalInterest`. Function `updatePosDebtShares()` [assumes](https://github.com/code-423n4/2023-12-initcapital/blob/main/contracts/core/PosManager.sol#L175) that `ILendingPool(_pool).debtShareToAmtCurrent(currDebtShares)` is always increasing, but this is not the case, as a liquidation may happen that reduces the current debt amount. This leads to calls to `updatePosDebtShares()` reverting.\n\nThe most relevant is when liquidating, such that users could liquidate themselves for small amounts (1) and prevent liqudiations in the same block. This is because the debt accrual happens over time, so if the block.timestamp is the same, no debt accrual will happen. Thus, if a liquidate call with 1 amount frontruns a liquidate call with any amount, the second call will revert.\n\nA user could still stop liquidations for as long as the accrued interest doesn't reach the last debt value before liquidation, if the user liquidated a bigger part of the debt.\n\nAdd the following test to `TestInitCore.sol`:\n\n```solidity\nfunction test_POC_Liquidate_reverts_frontrunning_PosManager_WrongAssumption() public {\n    address poolUSDT = address(lendingPools[USDT]);\n    address poolWBTC = address(lendingPools[WBTC]);\n    _setTargetHealthAfterLiquidation_e18(1, type(uint64).max); // by pass max health after liquidate capped\n    _setFixedRateIRM(poolWBTC, 0.1e18); // 10% per sec\n\n    uint collAmt;\n    uint borrAmt;\n\n    {\n        uint collUSD = 100_000;\n        uint borrUSDMax = 80_000;\n        collAmt = _priceToTokenAmt(USDT, collUSD);\n        borrAmt = _priceToTokenAmt(WBTC, borrUSDMax);\n    }\n\n    address liquidator = BOB;\n    deal(USDT, ALICE, collAmt);\n    deal(WBTC, liquidator, borrAmt * 2);\n\n    // provides liquidity for borrow\n    _fundPool(poolWBTC, borrAmt);\n\n    // create position and collateralize\n    uint posId = _createPos(ALICE, ALICE, 1);\n    _collateralizePosition(ALICE, posId, poolUSDT, collAmt, bytes(''));\n\n    // borrow\n    _borrow(ALICE, posId, poolWBTC, borrAmt, bytes(''));\n\n    // fast forward time and accrue interest\n    vm.warp(block.timestamp + 1 seconds);\n    ILendingPool(poolWBTC).accrueInterest();\n\n    uint debtShares = positionManager.getPosDebtShares(posId, poolWBTC);\n\n    _liquidate(liquidator, posId, 1, poolWBTC, poolUSDT, false, bytes(''));\n\n    // liquidate all debtShares\n    _liquidate(liquidator, posId, 1000, poolWBTC, poolUSDT, false, bytes('panic'));\n}\n```\n\n### Tools Used\n\nVscode, Foundry\n\n### Recommended Mitigation Steps\n\nUpdate the user's last debt position `__posBorrInfos[_posId].borrExtraInfos[_pool].totalInterest` on `_repay()`.\n\n**[fez-init (INIT) confirmed](https://github.com/code-423n4/2023-12-initcapital-findings/issues/42#issuecomment-1872425149)**\n\n\n**[hansfriese (Judge) commented](https://github.com/code-423n4/2023-12-initcapital-findings/issues/42#issuecomment-1872433152):**\n > After discussing internally with the sponsor/warden, we've confirmed the issue.\n> Here is a part of the discussion:\n> \n> > \"When it frontruns the liquidation with 1 share, it removes 1 share and 2 debt.<br>\n> > When it calculates the amount again in the following liquidation, the shares will be worth 1 less and it reverts.\"\n> \n> As a mitigation, we can update `extraInfo.totalInterest` only when [debtAmtCurrent > extraInfo.lastDebtAmt](https://github.com/code-423n4/2023-12-initcapital/blob/a53e401529451b208095b3af11862984d0b32177/contracts/core/PosManager.sol#L176).\n>\n > ![image](https://github.com/code-423n4/2023-12-initcapital-findings/assets/45533148/c1bd109c-4c8e-4683-b559-055128efb64f)\n> \n > High is appropriate as the main invariant might be broken temporarily while repaying.\n\n***\n\n",
+            "kind": "GIT",
+            "issue_source": {
+                "name": "Code4rena",
+                "url": "https://code4rena.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_horizontal.png",
+                "has_contest": true
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "0x73696d616f"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-15T20:00:00Z",
+            "contest_prize_txt": "38500",
+            "contest_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "sponsor_name": "INIT Capital",
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "github_link": "https://github.com/code-423n4/2023-12-initcapital-findings/issues/42",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23540,
+            "openai_explained": false,
+            "summary": "",
+            "similar_issue_list": [],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "h-01-liquidations-can-be-prevented-by-frontrunning-and-liquidating-1-debt-or-more-due-to-wrong-assumption-in-pos_manager-code4rena-init-capital-init-capital-git"
+        },
+        {
+            "id": 29590,
+            "issue_protocol": {
+                "id": 1219,
+                "name": "INIT Capital",
+                "category_list": []
+            },
+            "title": "[H-02] wLp tokens could be stolen",
+            "content": "\n`PosManager#removeCollateralWLpTo` function allows users to remove collateral wrapped in a wLp token that was previously supplied to the protocol:\n\n```solidity\nFile: PosManager.sol\n249:     function removeCollateralWLpTo(uint _posId, address _wLp, uint _tokenId, uint _amt, address _receiver)\n250:         external\n251:         onlyCore\n252:         returns (uint)\n253:     {\n254:         PosCollInfo storage posCollInfo = __posCollInfos[_posId];\n255:         // NOTE: balanceOfLp should be 1:1 with amt\n256:         uint newWLpAmt = IBaseWrapLp(_wLp).balanceOfLp(_tokenId) - _amt;\n257:         if (newWLpAmt == 0) { \n258:             _require(posCollInfo.ids[_wLp].remove(_tokenId), Errors.NOT_CONTAIN);\n259:             posCollInfo.collCount -= 1;\n260:             if (posCollInfo.ids[_wLp].length() == 0) {\n261:                 posCollInfo.wLps.remove(_wLp);\n262:             }\n263:             isCollateralized[_wLp][_tokenId] = false;\n264:         }\n265:         _harvest(_posId, _wLp, _tokenId);\n266:         IBaseWrapLp(_wLp).unwrap(_tokenId, _amt, _receiver);\n267:         return _amt;\n268:     }\n```\n\nThis function could be called only from the core contract using the `decollateralizeWLp` and `liquidateWLp` functions. However, it fails to check if the specified `tokenId` belongs to the current position, this check would take place only if removing is full - meaning no lp tokens remain wrapped in the wLp (line 257).\n\nThis would allow anyone to drain any other positions with supplied wLp tokens. The attacker only needs to create its own position, supply dust amount in wLp to it, and call `decollateralizeWLp` with the desired 'tokenId', also withdrawn amount should be less than the full wLp balance to prevent check on line 257. An attacker would receive almost all lp tokens and accrued rewards from the victim's wLp.\n\nA similar attack for harvesting the victim's rewards could be done through the `liquidateWLp` function.\n\n### Impact\n\nAttacker could drain any wLp token and harvest all accrued rewards for this token.\n\n### Proof of Concept\n\nThe next test added to the `tests/wrapper/TestWLp.sol` file could show an exploit scenario:\n\n```solidity\n    function testExploitStealWlp() public {\n        uint victimAmt = 100000000;\n        // Bob open position with 'tokenId' 1\n        uint bobPosId = _openPositionWithLp(BOB, victimAmt);\n        // Alice open position with 'tokenId' 2 and dust amount \n        uint alicePosId = _openPositionWithLp(ALICE, 1);\n        // Alice successfully de-collateralizes her own position using Bob's 'tokenId' and amounts less than Bob's position by 1 to prevent a revert\n        vm.startPrank(ALICE, ALICE);\n        initCore.decollateralizeWLp(alicePosId, address(mockWLpUniV2), 1, victimAmt - 1, ALICE);\n        vm.stopPrank();\n\n        emit log_uint(positionManager.getCollWLpAmt(bobPosId, address(mockWLpUniV2), 1));\n        emit log_uint(IERC20(lp).balanceOf(ALICE));\n    }\n\n```\n\n### Recommended Mitigation Steps\n\nConsider adding a check that position holds the specified token into the `removeCollateralWLpTo` function:\n\n```solidity\n_require(__posCollInfos[_posId].ids[_wlp].contains(_tokenId), Errors.NOT_CONTAIN);\n```\n\n**[fez-init (INIT) confirmed](https://github.com/code-423n4/2023-12-initcapital-findings/issues/31#issuecomment-1870313456)**\n\n***\n\n",
+            "kind": "GIT",
+            "issue_source": {
+                "name": "Code4rena",
+                "url": "https://code4rena.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_horizontal.png",
+                "has_contest": true
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "said",
+                "sashik\\_eth"
+            ],
+            "finders_count": 2,
+            "report_date": "2023-12-15T20:00:00Z",
+            "contest_prize_txt": "38500",
+            "contest_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "sponsor_name": "INIT Capital",
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "github_link": "https://github.com/code-423n4/2023-12-initcapital-findings/issues/31",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23539,
+            "openai_explained": false,
+            "summary": "",
+            "similar_issue_list": [],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "h-02-wlp-tokens-could-be-stolen-code4rena-init-capital-init-capital-git"
+        },
+        {
+            "id": 29591,
+            "issue_protocol": {
+                "id": 1219,
+                "name": "INIT Capital",
+                "category_list": []
+            },
+            "title": "[H-03] `_handleRepay` of `MoneyMarketHook` does not consider the actual debt shares of the `posId` inside the position manager and could lead to a user's tokens getting stuck inside the hook",
+            "content": "\nWhen users construct repay operations via `MoneyMarketHook`, it doesn't consider the actual debt shares of the position inside the `InitCore` and `PosManager`. This could lead to users' tokens getting stuck inside the `MoneyMarketHook` contract.\n\n### Proof of Concept\n\nWhen users want to repay his positions in `MoneyMarketHook`, they can provide the parameters inside `repayParams`, and `MoneyMarketHook` will construct the operation via `_handleRepay` function.\n\n<https://github.com/code-423n4/2023-12-initcapital/blob/main/contracts/hook/MoneyMarketHook.sol#L145-L159>\n\n```solidity\n    function _handleRepay(uint _offset, bytes[] memory _data, uint _initPosId, RepayParams[] memory _params)\n        internal\n        returns (uint, bytes[] memory)\n    {\n        for (uint i; i < _params.length; i = i.uinc()) {\n            address uToken = ILendingPool(_params[i].pool).underlyingToken();\n>>>         uint repayAmt = ILendingPool(_params[i].pool).debtShareToAmtCurrent(_params[i].shares);\n            _ensureApprove(uToken, repayAmt);\n>>>         IERC20(uToken).safeTransferFrom(msg.sender, address(this), repayAmt);\n            _data[_offset] =\n                abi.encodeWithSelector(IInitCore.repay.selector, _params[i].pool, _params[i].shares, _initPosId);\n            _offset = _offset.uinc();\n        }\n        return (_offset, _data);\n    }\n```\n\nIt can be observed that it calculates the `repayAmt` based on the shares provided by the users and transfers the corresponding amount of tokens from the sender to the hook. However, the actual debt shares of the position can be less than the `_params[i].shares` provided by users. This means that the actual repay amount of tokens needed could be less than the calculated `repayAmt`.\n\n<https://github.com/code-423n4/2023-12-initcapital/blob/main/contracts/core/InitCore.sol#L530-L551>\n\n```solidity\n    function _repay(IConfig _config, uint16 _mode, uint _posId, address _pool, uint _shares)\n        internal\n        returns (address tokenToRepay, uint amt)\n    {\n        // check status\n        _require(_config.getPoolConfig(_pool).canRepay && _config.getModeStatus(_mode).canRepay, Errors.REPAY_PAUSED);\n        // get position debt share\n>>>     uint positionDebtShares = IPosManager(POS_MANAGER).getPosDebtShares(_posId, _pool);\n>>>     uint sharesToRepay = _shares < positionDebtShares ? _shares : positionDebtShares;\n        // get amtToRepay (accrue interest)\n>>>     uint amtToRepay = ILendingPool(_pool).debtShareToAmtCurrent(sharesToRepay);\n        // take token from msg.sender to pool\n        tokenToRepay = ILendingPool(_pool).underlyingToken();\n>>>     IERC20(tokenToRepay).safeTransferFrom(msg.sender, _pool, amtToRepay);\n        // update debt on the position\n        IPosManager(POS_MANAGER).updatePosDebtShares(_posId, _pool, -sharesToRepay.toInt256());\n        // call repay on the pool\n        amt = ILendingPool(_pool).repay(sharesToRepay);\n        // update debt on mode\n        IRiskManager(riskManager).updateModeDebtShares(_mode, _pool, -sharesToRepay.toInt256());\n        emit Repay(_pool, _posId, msg.sender, _shares, amt);\n    }\n```\n\nConsider a scenario where the user's positions are currently liquidatable, and the user wishes to repay all of the position's debt inside the `MoneyMarketHook`. However, a liquidator front-runs the operation by liquidating the user's position. Now, when the repayment operation executes from `MoneyMarketHook`, it transfers the `repayAmt` to the `MoneyMarketHook` but the amount is not used/fully utilized and becomes stuck inside the contract.\n\n### Recommended Mitigation Steps\n\nConsider to also check the provided shares against the actual debt shares inside the `InitCore`/`PosManager`.\n\n**[fez-init (INIT) confirmed, but disagreed with severity and commented](https://github.com/code-423n4/2023-12-initcapital-findings/issues/28#issuecomment-1870322481):**\n > The issue should be medium, since the funds cannot be retrieved by someone else. The hook will be upgradeable, so if funds actually get stuck, it is still retrievable.\n\n**[hansfriese (Judge) commented](https://github.com/code-423n4/2023-12-initcapital-findings/issues/28#issuecomment-1871745239):**\n > I agree that this issue is in the middle of Medium and High.\n> Users might face a temporary lock on their funds, and the hook should be upgraded every time to unlock them.\n>\n> Given the high probability of this scenario occurring, I will keep this issue as a valid High.\n\n\n***\n \n",
+            "kind": "GIT",
+            "issue_source": {
+                "name": "Code4rena",
+                "url": "https://code4rena.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_horizontal.png",
+                "has_contest": true
+            },
+            "impact": "HIGH",
+            "tag_list": [],
+            "finder_list": [
+                "said"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-15T20:00:00Z",
+            "contest_prize_txt": "38500",
+            "contest_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "sponsor_name": "INIT Capital",
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "github_link": "https://github.com/code-423n4/2023-12-initcapital-findings/issues/28",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23538,
+            "openai_explained": false,
+            "summary": "",
+            "similar_issue_list": [],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "h-03-_handlerepay-of-moneymarkethook-does-not-consider-the-actual-debt-shares-of-the-posid-inside-the-position-manager-and-could-lead-to-a-users-tokens-getting-stuck-inside-the-hook-code4rena-init-capital-init-capital-git"
+        },
+        {
+            "id": 29592,
+            "issue_protocol": {
+                "id": 1219,
+                "name": "INIT Capital",
+                "category_list": []
+            },
+            "title": "[M-01] repay(), liquidate() and liquidateWLp() receive shares as argument, which may revert if from approval to tx settled blocks have passed",
+            "content": "\n<https://github.com/code-423n4/2023-12-initcapital/blob/main/contracts/core/InitCore.sol#L151> \n\n<https://github.com/code-423n4/2023-12-initcapital/blob/main/contracts/core/InitCore.sol#L282> \n\n<https://github.com/code-423n4/2023-12-initcapital/blob/main/contracts/core/InitCore.sol#L317>\n\n`repay()`, `liquidate()` and `liquidateWLp()` transactions revert if users approve the exact repay amount they need in the frontend and only after some blocks have passed is the transaction settled. This happens because the interest accrual is by timestamp, so the debt would have increased since the approval, when the transaction settles.\n\n### Proof of Concept\n\nA test when repaying debt was carried out in `TestInitCore.sol`. The timestamp increased just 1 second, but it was enough to make the transaction revert. It may be possible to request a bigger alowance than expected, but this has other implications.\n\n```solidity\nfunction test_POC_TransferFromFails_DueToDebtAccrual() public {\n    uint256 _wbtcAmount = 3e8;\n    uint256 _borrowAmount = 1e8;\n    address _user = makeAddr(\"user\");\n    deal(WBTC, _user, _wbtcAmount);\n    \n    uint256 _posId = _createPos(_user, _user, 2);\n    uint256 shares_ = _mintPool(_user, address(lendingPools[WBTC]), _wbtcAmount, \"\");\n    vm.startPrank(_user);\n    lendingPools[WBTC].transfer(address(positionManager), shares_);\n    initCore.collateralize(_posId, address(lendingPools[WBTC]));\n    vm.stopPrank();\n\n    uint256 _debtShares = _borrow(_user, _posId, address(lendingPools[WBTC]), _borrowAmount, \"\");\n\n    uint256 _userDebtBalance = lendingPools[WBTC].debtShareToAmtCurrent(_debtShares);\n\n    vm.prank(_user);\n    IERC20(WBTC).approve(address(initCore), _userDebtBalance);\n\n    skip(1); \n\n    vm.prank(_user);\n    vm.expectRevert(\"ERC20: transfer amount exceeds balance\");\n    initCore.repay(address(lendingPools[WBTC]), _debtShares, _posId);\n}\n```\n\n### Tools Used\n\nVscode, Foundry\n\n### Recommended Mitigation Steps\n\nReceive the amount in InitCore as argument instead of the shares on the `repay()`, `liquidate()` and `liquidateWLp()` functions.\n\n**[fez-init (INIT) acknowledged and commented](https://github.com/code-423n4/2023-12-initcapital-findings/issues/38#issuecomment-1871620933):**\n > The issue should be mitigated with the introduction of hooks, where such additional logic of amount to share conversion can be implemented. \n\n***\n\n",
+            "kind": "GIT",
+            "issue_source": {
+                "name": "Code4rena",
+                "url": "https://code4rena.com",
+                "logo_square_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_square.png",
+                "logo_horizontal_url": "https://solodit-bucket.s3.amazonaws.com/storage/images/af_logos/code4rena_horizontal.png",
+                "has_contest": true
+            },
+            "impact": "MEDIUM",
+            "tag_list": [],
+            "finder_list": [
+                "0x73696d616f"
+            ],
+            "finders_count": 1,
+            "report_date": "2023-12-15T20:00:00Z",
+            "contest_prize_txt": "38500",
+            "contest_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "sponsor_name": "INIT Capital",
+            "quality_score": 0.0,
+            "general_score": 0.0,
+            "source_link": "https://code4rena.com/reports/2023-12-initcapital",
+            "github_link": "https://github.com/code-423n4/2023-12-initcapital-findings/issues/38",
+            "pdf_link": "",
+            "pdf_page_from": 0,
+            "bookmarked": false,
+            "bookmarked_total": 0,
+            "markasread": false,
+            "change_logs": [],
+            "editor_comments": [],
+            "github_dicussion_no": 23537,
+            "openai_explained": false,
+            "summary": "",
+            "similar_issue_list": [],
+            "user_note": {
+                "created_at": null,
+                "note": ""
+            },
+            "slug": "m-01-repay-liquidate-and-liquidatewlp-receive-shares-as-argument-which-may-revert-if-from-approval-to-tx-settled-blocks-have-passed-code4rena-init-capital-init-capital-git"
+        }
+    ]
+}

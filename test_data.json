@@ -1,0 +1,99 @@
+{
+"findings":[
+    {
+        "id": 29436,
+        "issue_protocol": {
+            "id": 1233,
+            "name": "Divergence Protocol",
+            "category_list": []
+        },
+        "title": "Debug code in `getPriceByExternal`",
+        "content": "##### Description\nThe last instruction of the `getPriceByExternal` function will always return the same price (30_000e18). \nhttps://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Oracle.sol#L43\nIt leads to the incorrect settles of battles. An attacker can use this code issue for getting profit from bets. \n##### Recommendation\nWe recommend removing the `return (30_000e18, 0)` instruction from the function.\n\n\n",
+        "kind": "MARKDOWN",
+        "impact": "HIGH",
+        "tag_list": [
+            {
+                "title": "Code Quality",
+                "description": "Code quality issues pertain to the readability and maintainability of the smart contract code. These are not directly related to the functionality of the contract but can have long-term impacts on the ability to understand, maintain, and securely update the code. Code quality is considered to be a non-functional requirement but is essential for the sustainability and reliability of a smart contract."
+            }
+        ],
+        "finder_list": [
+            "MixBytes"
+        ],
+        "summary": "\nThis bug report concerns the `getPriceByExternal` function in the Oracle.sol file. This function will always return the same price (30_000e18), which leads to incorrect settles of battles. An attacker can take advantage of this issue to make a profit from bets. The recommendation is to remove the `return (30_000e18, 0)` instruction from the function to fix the issue.",
+        "similar_issue_list": [
+            {
+                "id": 29444,
+                "title": "The owner can manipulate oracles",
+                "slug": "the-owner-can-manipulate-oracles-mixbytes-none-divergence-protocol-markdown"
+            },
+            {
+                "id": 20852,
+                "title": "M-5: D3Oracle will return the wrong price if the Chainlink aggregator returns price outside min/max range",
+                "slug": "m-5-d3oracle-will-return-the-wrong-price-if-the-chainlink-aggregator-returns-price-outside-minmax-range-sherlock-none-dodo-v3-git"
+            },
+            {
+                "id": 3350,
+                "title": "H-2: `ChainlinkOracle.sol#getPrice()` The price will be wrong when the token's USD price feed's `decimals != 8`",
+                "slug": "h-2-chainlinkoraclesolgetprice-the-price-will-be-wrong-when-the-tokens-usd-price-feeds-decimals-8-sherlock-sentiment-sentiment-git"
+            }
+        ]
+    },
+    {
+        "protocol": "Divergence Protocol",
+        "title": "Battle fishing attack",
+        "content": "##### Description\nThe `Arena` smart contract contains a public [`createBattle`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Arena.sol#L67) function that creates a new battle without initializing. This function is used in the `BattleInitializer`'s function [`createAndInitializeBattle`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/periphery/base/BattleInitializer.sol#L14). It means that an attacker can create a new battle and binds it to a fake manager behind the scene. Using the manager priviledge, the fake manager contract can mint spear and shield tokens and put them to the pool. A user will trade these tokens for collateral. At the end of the battle the attacker could withdraw assets using the [`collect`](https://github.com/DivergenceProtocol/diver-contracts/blob/e5286f94a7ccb9d6279fae51ea66a8833672628a/src/core/Battle.sol#L271) function of the battle.\n\n##### Recommendation\nWe recommend improving the access right model to disallow attackers to gain privileged access.\n\n\n",
+        "kind": "MARKDOWN",
+        "impact": "HIGH",
+        "tag_list": [],
+        "finder_list": [
+            "MixBytes"
+        ],
+        "summary": "\nThe Divergence Protocol is a smart contract that contains a public function called `createBattle`. This function is used to create a new battle, however it does not initialize the battle. An attacker could use this to gain access to the manager priviledge, allowing them to mint spear and shield tokens and put them in the pool. This would allow the attacker to withdraw assets at the end of the battle using the `collect` function of the battle. To prevent this, it is recommended to improve the access right model to disallow attackers from gaining privileged access.",
+        "similar_issue_list": [
+            {
+                "id": 29440,
+                "title": "The `startSqrtPriceX96` manipulation",
+                "slug": "the-startsqrtpricex96-manipulation-mixbytes-none-divergence-protocol-markdown"
+            },
+            {
+                "id": 29446,
+                "title": "Public functions for withdrawn assets in the `PeripheryPayments` contract",
+                "slug": "public-functions-for-withdrawn-assets-in-the-peripherypayments-contract-mixbytes-none-divergence-protocol-markdown"
+            },
+            {
+                "id": 29447,
+                "title": "Lack of incentivization of the battle settlement process",
+                "slug": "lack-of-incentivization-of-the-battle-settlement-process-mixbytes-none-divergence-protocol-markdown"
+            }
+        ]
+    },
+    {
+        "protocol": "Divergence Protocol",
+        "title": "Multiple redemptions of position are possible",
+        "content": "##### Description\nThe `redeemObligation` function does not change the state of the position to `ObligationRedeemed`. This allows an attacker to call it multiple times, potentially gaining an unlimited amout of the collateral token. Currently, this issue is unexploitable because of issue M.5 (described below), however, it becomes relevant if issue M.5 is fixed.\n##### Recommendation\nWe recommend changing the state of the position after redemption of the obligations to prevent multiple redemptions.\n\n\n",
+        "kind": "MARKDOWN",
+        "impact": "HIGH",
+        "tag_list": [],
+        "finder_list": [
+            "MixBytes"
+        ],
+        "summary": "\nThis bug report concerns the `redeemObligation` function, which is used to redeem obligations. The problem is that the function does not change the state of the position to `ObligationRedeemed`, which allows an attacker to call the function multiple times and potentially gain an unlimited amount of the collateral token. Currently, this issue is not exploitable due to another issue (M.5), but it could become relevant if that issue is fixed.\n\nThe recommendation is to change the state of the position after redemption of the obligations, in order to prevent multiple redemptions. This would help to ensure that attackers cannot exploit the function for their own gain.",
+        "similar_issue_list": [
+            {
+                "id": 29448,
+                "title": "The `redeemObligation` will always be reverted",
+                "slug": "the-redeemobligation-will-always-be-reverted-mixbytes-none-divergence-protocol-markdown"
+            },
+            {
+                "id": 26239,
+                "title": "SILENT FAILURE DURING TOKEN REDEMPTION ON THE WITHDRAW FUNCTION",
+                "slug": "silent-failure-during-token-redemption-on-the-withdraw-function-halborn-none-qoda-finance-core-v1-security-assessment-pdf"
+            },
+            {
+                "id": 16152,
+                "title": "[M-09] Last Trove may be prevented from redeeming",
+                "slug": "m-09-last-trove-may-be-prevented-from-redeeming-code4rena-ethos-reserve-ethos-reserve-contest-git"
+            }
+        ]
+    }]}
